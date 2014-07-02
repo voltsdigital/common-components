@@ -6,7 +6,7 @@ if( !defined( 'WPINC' ) )
 /**
  * Faz as operações relacionadas aos assinantes da Newsletter do Portal
  */
-class CTR_Assinante {
+class CTR_Subscriber {
 
     // -----------------------------------------------------------------------------
 
@@ -59,4 +59,4 @@ class CTR_Assinante {
 
 
 
-new CTR_Assinante;
+new CTR_Subscriber;
