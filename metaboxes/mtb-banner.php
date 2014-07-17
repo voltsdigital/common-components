@@ -32,10 +32,7 @@ class MTB_Banner {
                     'id'          => 'banner_link',
                     'name'        => 'Link',
                     'label'       => 'Link',
-                    'type'        => 'text',
-                    'attributes'  => array(
-                        'required'    => 'required'
-                    )
+                    'type'        => 'text'
                 ),
                 array(
                     'id'          => 'banner_foto',
