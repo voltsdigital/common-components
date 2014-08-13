@@ -25,6 +25,8 @@ class CTR_Contact
      * @return string 
      */
     private function format_body_content() {
+
+        $data = new DateTime("now",  new DateTimeZone('America/Sao_Paulo'));
         $body = file_get_contents(TEMPLATEPATH . '/partials/mail-template/mail-template-contact.php');
         $body = str_replace( "%name%",  $_POST['cf_name'], $body);
         $body = str_replace( "%titulo%", 'E-mail enviado via Página de Contato', $body);
@@ -32,7 +34,7 @@ class CTR_Contact
         $body = str_replace( "%telephone%", $_POST['cf_phone'], $body);
         $body = str_replace( "%message%", $_POST['cf_message'], $body);
         $body = str_replace( "%subscribe_news%", $_POST['cf_subscribe_news'], $body);
-        $body = str_replace( "%sent_date%", date_i18n( "d \d\e F \d\e Y \à\s H:i", time()), $body);
+        $body = str_replace( "%sent_date%", $data->format("d/m/Y H:i:s") );
         return $body;
 
     }
