@@ -34,7 +34,7 @@ class CTR_Contact
         $body = str_replace( "%telephone%", $_POST['cf_phone'], $body);
         $body = str_replace( "%message%", $_POST['cf_message'], $body);
         $body = str_replace( "%subscribe_news%", $_POST['cf_subscribe_news'], $body);
-        $body = str_replace( "%sent_date%", $data->format("d/m/Y H:i:s") );
+        $body = str_replace( "%sent_date%", $data->format("d/m/Y H:i:s"), $body );
         return $body;
 
     }
