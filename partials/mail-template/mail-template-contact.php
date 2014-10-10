@@ -7,7 +7,7 @@
 
             <!-- LOGO -->
             <tr>
-                <td width="1342" height="150" colspan="2" align="center" valign="middle" style="padding-top:2px; border-top:1px solid #E6E6E6; border-left:1px solid #E6E6E6; border-right:1px solid #E6E6E6;"><p style="font-family:Arial, Helvetica, sans-serif;font-size:17px; line-height:130%; text-align:left; color:#575757; text-align:center"><img src="http://www.voltsdigital.com.br/site/themes/volts-2013/media/images/logo-volts.png" width="200" height="124"></p></td>
+                <td width="1342" height="150" colspan="2" align="center" valign="middle" style="padding-top:2px; border-top:1px solid #E6E6E6; border-left:1px solid #E6E6E6; border-right:1px solid #E6E6E6;"><p style="font-family:Arial, Helvetica, sans-serif;font-size:17px; line-height:130%; text-align:left; color:#575757; text-align:center"><img src="%logo%" width="200" height="124"></p></td>
             </tr>
 
             <!-- TITLE -->
