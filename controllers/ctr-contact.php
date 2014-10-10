@@ -5,68 +5,74 @@ if( !defined( 'WPINC' ) )
 
 /**
  *
- * Controller Contato
+ * Controller Contact
  */
 class CTR_Contact
 {
 
-    private $_mail_contact        = "luis@voltsdigital.com.br";
+    private $defaultRecipient = "luis@voltsdigital.com.br";
+    private $customerName     = "Cliente";
 
     // -----------------------------------------------------------------------------
 
-    function __construct() {
-        add_filter( "ctr_contact_send_mail" ,  array( &$this, 'send_mail' ), 10, 2);
+    function __construct() { }
+
+    // -----------------------------------------------------------------------------
+
+    /**
+     * Send a contact mail
+     * @return bool True if sucess, false if fail
+     */
+    public function sendMail() {
+
+        if(!$_POST)
+            return false;
+
+        $contactInfo = get_option( 'localizacao_e_contato' );
+
+        if( isset( $contactInfo['email_contato'] ) )
+            $this->defaultRecipient = $contactInfo['email_contato'];
+
+        $headers[] = "From: " . $this->customerName . " - Página de Contato  <". $this->defaultRecipient . ">";
+        $headers[] = 'Cco: Luís Felipe de Andrade <luis@voltsdigital.com.br>';
+        $headers[] = "Content-type: text/html";
+
+        $body      = $this->formatBodyContent();
+        $subject   = $this->customerName . " - Página de Contato ";
+
+        if( wp_mail( $this->defaultRecipient, $subject , $body, $headers) )
+            return true;
+        else
+            return false;
+
     }
 
     // -----------------------------------------------------------------------------
 
     /**
      * Format the body content of the mail
-     * @return string 
+     * @return string
      */
-    private function format_body_content() {
+    private function formatBodyContent() {
 
         $data = new DateTime("now",  new DateTimeZone('America/Sao_Paulo'));
-        $body = file_get_contents(TEMPLATEPATH . '/partials/mail-template/mail-template-contact.php');
-        $body = str_replace( "%name%",  $_POST['cf_name'], $body);
+
+        $contactInfo = get_option('localizacao_e_contato');
+
+        if ( isset ( $contactInfo[ 'logo_email' ][0] ) )
+            $logo = $contactInfo[ 'logo_email' ][0];
+        else
+            $logo = 'http://www.voltsdigital.com.br/site/themes/volts-2013/media/images/logo-volts.png';
+
+        $body = file_get_contents(TEMPLATEPATH . '/partials/mail-template/contact.php');
+        $body = str_replace( "%name%",  $_POST['fc_name'], $body);
+        $body = str_replace( "%logo%",  $logo,  $body);
         $body = str_replace( "%titulo%", 'E-mail enviado via Página de Contato', $body);
-        $body = str_replace( "%email%", $_POST['cf_email'], $body);
-        $body = str_replace( "%telephone%", $_POST['cf_phone'], $body);
-        $body = str_replace( "%message%", $_POST['cf_message'], $body);
-        $body = str_replace( "%subscribe_news%", $_POST['cf_subscribe_news'], $body);
+        $body = str_replace( "%email%", $_POST['fc_email'], $body);
+        $body = str_replace( "%telephone%", $_POST['fc_phone'], $body);
+        $body = str_replace( "%message%", $_POST['fc_message'], $body);
         $body = str_replace( "%sent_date%", $data->format("d/m/Y H:i:s"), $body );
         return $body;
-
-    }
-
-    // -----------------------------------------------------------------------------
-
-    /**
-     * Send a contact mail 
-     * @return bool True if sucess, false if fail
-     */
-    public function send_mail() {
-
-        $contact_info = get_option( 'localizacao_e_contato' );
-
-        if( isset( $contact_info['email_contato'] ) )
-            $this->_mail_contact = $contact_info['email_contato'];
-
-
-        if(!$_POST)
-            return false;
-
-        $headers[] = "From: Cliente - Página de Contato  <". $this->_mail_contact . ">";
-        $headers[] = 'Cco: Luís Felipe de Andrade <luis@voltsdigital.com.br>';
-        $headers[] = "Content-type: text/html";
-
-        $body      = $this->format_body_content();
-
-        if( wp_mail( $this->_mail_contact  ,  " Cliente - Página de Contato ", $body, $headers) )
-            return true;
-        else
-            return false;
-
     }
 
     // -----------------------------------------------------------------------------
