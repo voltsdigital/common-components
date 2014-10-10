@@ -2,6 +2,7 @@
 
 class MTB_Advantages Extends MTB_Page{
 
+    //Já inclui a checagem do template/page
     public function setup_metaboxes(){
 
         $advantages = new Odin_Metabox(
@@ -27,6 +28,7 @@ class MTB_Advantages Extends MTB_Page{
         );
     }
 
+    //Já inclui a checagem do template/page
     public function setup_editor_settings( $settings ) {
         $style_formats = array();
         $settings['style_formats'] = json_encode( $style_formats );
@@ -37,5 +39,5 @@ class MTB_Advantages Extends MTB_Page{
     }
 
 }
-
+//Restrição para o template passado
 $mtb_advantages_us = new MTB_Advantages( 'page-vantagens.php' );
