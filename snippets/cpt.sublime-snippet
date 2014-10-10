@@ -1,0 +1,87 @@
+<snippet>
+	<content><![CDATA[
+<?php
+
+if( !defined( 'WPINC' ) )
+  die(); 
+
+class CPT_${1:nome} {
+
+	// -----------------------------------------------------------------------------
+    
+	public function __construct() {
+
+		\$cpt = new Odin_Post_Type(
+            '${3:nome_singular}', 
+            '${2:slug}'          
+        );
+
+        \$cpt->set_arguments(
+            array(
+                'supports'            => array( 'title' ),
+                'hierarchical'        => false,
+                'menu_icon'           => 'dashicons-images-alt2',
+                'exclude_from_search' => true
+            )
+        );
+
+        \$cpt->set_labels(
+            array(
+                'menu_name'          => '${3:nome_singular}',
+                'singular_name'      => '${3:nome_singular}',
+                'add_new'            => 'Adicionar Novo ${3:nome_singular}',
+                'add_new_item'       => 'Adicionar Novo ${3:nome_singular}',
+                'edit_item'          => 'Editar ${3:nome_singular}',
+                'new_item'           => 'Novo ${3:nome_singular}',
+                'all_items'          => 'Todos ${4:nome_plural}',
+                'view_item'          => 'Ver ${4:nome_plural}',
+                'search_items'       => 'Procurar ${4:nome_plural}',
+                'not_found'          => 'Nenhum ${3:nome_singular} Encontrado',
+                'not_found_in_trash' => 'Nenhum ${3:nome_singular} Encontrado na Lixeira',
+                'parent_item_colon'  => '',
+            )
+        );
+
+        add_filter( 'manage_edit-${2:slug}_columns',        array(\$this, 'columnsToShow' ));
+        add_action( 'manage_${2:slug}_posts_custom_column', array(\$this, 'valuesToShow'), 10,2);
+
+	}
+
+	// -----------------------------------------------------------------------------
+    
+    public function columnsToShow( \$columns ) {
+
+        unset(\$columns["date"]);
+        unset(\$columns["icl_translations"]);
+        unset(\$columns["wpseo-metadesc"]);
+        unset(\$columns["wpseo-title"]);
+        unset(\$columns["wpseo-focuskw"]);
+        unset(\$columns["wpseo-score"]);
+
+        \$new_columns = array(
+            "date"             => "Data",
+
+        );
+    
+        return array_merge(\$columns, \$new_columns);
+    }
+
+    // -----------------------------------------------------------------------------
+
+    public function valuesToShow( \$column, \$postId ) {
+
+        \$valor = get_post_meta( \$postId, $column , true );
+        echo $valor;
+    }
+
+    // -----------------------------------------------------------------------------
+
+}
+
+new CPT_${1:nome};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cpt</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
