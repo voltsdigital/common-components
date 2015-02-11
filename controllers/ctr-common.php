@@ -88,8 +88,29 @@ class CTR_Common {
          */
         add_editor_style( get_template_directory_uri() . '/admin/public/css/editor-style.css' );
 
+        /*
+        * Buscar página que utiliza determinado template
+        */
+        add_filter( 'get_page_by_template' , array( $this , 'get_page_by_template' ) , 10 , 1 );
+
     } // setup_features
 
+    public function get_page_by_template( $template_name ){
+        $pages = get_pages(
+            array(
+                'meta_key' => '_wp_page_template',
+                'meta_value' => $template_name
+            )
+        );
+
+        $page = null;
+
+        if( $pages ){
+            $page = array_shift( $pages );
+        }
+
+        return $page;
+    } // get_page_by_template
 
 
     // -----------------------------------------------------------------------------
