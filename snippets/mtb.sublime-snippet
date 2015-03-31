@@ -1,0 +1,55 @@
+<snippet>
+	<content><![CDATA[
+<?php
+
+if( !defined( 'WPINC' ) )
+  die();
+
+/**
+ * Create the metaboxes and the fields
+ */
+class MTB_${1:nome} {
+
+    // -----------------------------------------------------------------------------
+
+    public function __construct() {
+
+        \$this->createGeneralMetabox();
+    }
+
+    // -----------------------------------------------------------------------------
+
+    public function cria_metabox_geral() {
+
+        \$geral = new Odin_Metabox(
+            '${2:ID_METABOX}', 
+            '${1:nome}', 
+            'array('slug')',
+            'normal', 
+            'high' 
+        );
+
+        \$geral->set_fields(
+            array(
+                array(
+                    'id'          => 'field',
+                    'label'       => 'Foto',
+                    'type'        => 'image'
+                )
+            )
+        );
+    }
+
+    // -----------------------------------------------------------------------------
+
+}
+
+new MTB_${1:nome};
+
+?>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>mtb</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

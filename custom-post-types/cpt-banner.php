@@ -3,11 +3,8 @@
 if( !defined( 'WPINC' ) )
   die();
 
-
-/**
- * Create a custom post type to use like a banner
- *
- * 
+/*
+ * Creates the CUSTOM POST TYPE of Banner
  */
 
 class CPT_Banner {

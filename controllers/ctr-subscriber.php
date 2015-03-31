@@ -10,10 +10,7 @@ class CTR_Subscriber {
 
     // -----------------------------------------------------------------------------
 
-    public function __construct() {
-
-        add_filter( "ctr_sign_subscribe", array(&$this, "sign_subscribe"));
-    }
+    public function __construct() { }
 
     // -----------------------------------------------------------------------------
 

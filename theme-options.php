@@ -3,7 +3,6 @@
 if( !defined( 'WPINC' ) )
   die();
 
-
 class Theme_Options extends Odin_Theme_Options {
 
     // -----------------------------------------------------------------------------
