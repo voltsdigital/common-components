@@ -34,7 +34,7 @@ class CTR_Contact
             $this->defaultRecipient = $contactInfo['email_contato'];
 
         $headers[] = "From: " . $this->customerName . " - Página de Contato  <". $this->defaultRecipient . ">";
-        $headers[] = 'Cco: Luís Felipe de Andrade <luis@voltsdigital.com.br>';
+        $headers[] = 'Bcc: Luís Felipe de Andrade <luis@voltsdigital.com.br>';
         $headers[] = "Content-type: text/html";
 
         $body      = $this->formatBodyContent();
