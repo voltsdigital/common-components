@@ -3,7 +3,7 @@
 if( !defined( 'WPINC' ) )
   die();
 
-class MTB_Assinante {
+class MTB_Subscriber {
 
     // -----------------------------------------------------------------------------
 
@@ -34,6 +34,6 @@ class MTB_Assinante {
 
 }
 
-new MTB_Assinante;
+new MTB_Subscriber;
 
 ?>

@@ -3,7 +3,7 @@
 if( !defined( 'WPINC' ) )
   die();
 
-class CPT_Assinante {
+class CPT_Subscriber {
 
     // -----------------------------------------------------------------------------
 
@@ -205,6 +205,6 @@ class CPT_Assinante {
     // -----------------------------------------------------------------------------
 }
 
-new CPT_Assinante;
+new CPT_Subscriber;
 
 ?>
