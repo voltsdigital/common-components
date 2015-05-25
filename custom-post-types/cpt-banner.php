@@ -14,8 +14,8 @@ class CPT_Banner {
     public function __construct() {
 
         $banner = new Odin_Post_Type(
-            'Banner', 
-            'banner_home' 
+            'Banner',
+            'banner_home'
         );
 
         $banner->set_arguments(
@@ -23,7 +23,8 @@ class CPT_Banner {
                 'supports'            => array( 'title' ),
                 'hierarchical'        => false,
                 'menu_icon'           => 'dashicons-images-alt2',
-                'exclude_from_search' => true
+                'exclude_from_search' => true,
+                'rewrite'             => false
             )
         );
 
@@ -87,11 +88,11 @@ class CPT_Banner {
      */
     public function valores_exibicao_listagem( $column, $post_id ) {
 
-        if( $column == "banner_foto" ) 
+        if( $column == "banner_foto" )
             $valor = wp_get_attachment_image( get_post_meta( $post_id, $column , "single" ) );
-        else 
+        else
             $valor = get_post_meta( $post_id, $column , true );
-        
+
         echo $valor;
 
     }
