@@ -7,7 +7,7 @@ if( !defined( 'WPINC' ) )
  *
  * Controller Contact
  */
-class CTR_Contact
+class CTRContact
 {
 
     private $defaultRecipient = "luis@voltsdigital.com.br";
@@ -16,6 +16,23 @@ class CTR_Contact
     // -----------------------------------------------------------------------------
 
     function __construct() { }
+
+    // -----------------------------------------------------------------------------
+
+
+    public function isSpam(){
+
+        $hasMaliciousContent   = preg_match( '/bcc:|cc:|multpart|\[url|\[link|Content-Type:/i', implode( $_POST ) );
+        $hasMoreThanThreeLinks = preg_match( '/<a|http:/i', implode( $_POST ) ) > 2;
+        // Campo para pegar spammers. Se estiver preenchido, é SPAM.
+        $isSpamFieldFilled     = ! empty( $_POST[ 'mail' ] );
+
+        if( $hasMaliciousContent || $hasMoreThanThreeLinks || $isSpamFieldFilled )
+          return true;
+
+        return false;
+
+    }
 
     // -----------------------------------------------------------------------------
 
@@ -79,4 +96,4 @@ class CTR_Contact
 
 }
 
-new CTR_Contact;
+new CTRContact;
