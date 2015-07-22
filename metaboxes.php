@@ -5,25 +5,29 @@
  * @author ANDRADE, Luís Felipe de Andrade
  * @copyright Volts Digital
  */
-class MTB_Import {
 
-    private $_post_type_files = array();
+namespace theme;
+
+class MTBImport
+{
+
+
     private $_pages_files     = array();
 
     // -----------------------------------------------------------------------------
 
-    public function __construct() {
+    public function __construct(){
 
-        if( ! defined( 'MTBS_DIR' ) ) {
+        if( ! defined( 'MTBS_DIR' ) )
             define( 'MTBS_DIR', FUNCTIONS_DIR . '/metaboxes' );
-        }
 
-        /* Only called when it`s a page
+        // Only called when it`s a page
+         /* Only called when it`s a page
         $this->_pages_files   = array(
                 "page-slug"        => "mtb-page-slug",
         );*/
 
-        $this->importMetaboxes( );
+        $this->importMetaboxes();
         $this->checkPage();
 
     }
@@ -34,7 +38,8 @@ class MTB_Import {
      * Detect if files  is an array of file  or just one and make the require
      * @return void
      */
-    public function importMetaboxes(  ) {
+    public function importMetaboxes(  )
+    {
 
         //Carrega todos os metaboxes encontrados no diretório
         $metaboxes = glob( MTBS_DIR ."/*.php");
@@ -58,21 +63,23 @@ class MTB_Import {
      */
     public function checkPage() {
 
-        $post_id = null;
+        $postID = null;
+
         if( isset($_GET[ 'post'])  )
-            $post_id =  $_GET[ 'post'];
+            $postID =  $_GET[ 'post'];
 
         if( isset( $_POST[ 'post_ID'] )  )
-            $post_id =  $_POST[ 'post_ID'];
+            $postID =  $_POST[ 'post_ID'];
 
-        $post_current = get_post( $post_id );
+        $post_current = get_post( $postID );
 
-        if( ! isset( $post_current->post_name ) )
+        if( !isset( $post_current->post_name ) )
             return ;
 
         $slug = $post_current->post_name;
+
         foreach($this->_pages_files as $k => $page ) {
-            if($k == $slug)
+            if($k == $slug || get_post_meta( $post_current->ID, '_wp_page_template', true ) == "page-".$k . ".php" )
                 require_once MTBS_DIR . '/'. $page . '.php';
         }
     }
@@ -80,6 +87,4 @@ class MTB_Import {
     // -----------------------------------------------------------------------------
 }
 
-new MTB_Import;
-
-
+new MTBImport;
