@@ -36,6 +36,9 @@ class Image extends Odin_Thumbnail_Resizer
     public function resize( ) {
 
         $this->imageThumbnail = self::process(  $this->imageSrc , $this->widthResize, $this->heightResize, $this->crop );
+
+         if ( ! $this->imageThumbnail )
+            $this->imageThumbnail = $this->imageSrc;
     }
 
 }
