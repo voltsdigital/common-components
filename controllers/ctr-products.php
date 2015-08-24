@@ -185,7 +185,6 @@ class CTRProduct {
 
         $post->product                   = get_product( $post->ID );
         $post->mainImage                 = $this->getMainImage( $post );
-        $post->firstAttributes           = $this->getFirstAttributes( $post->product );
         $post->product->promotionalPrice = $this->getPromotionalPrice( $post->product );
 
         return $post;
