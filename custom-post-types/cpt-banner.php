@@ -7,7 +7,7 @@ if( !defined( 'WPINC' ) )
  * Creates the CUSTOM POST TYPE of Banner
  */
 
-class CPT_Banner {
+class CPTBanner {
 
     // -----------------------------------------------------------------------------
 
@@ -101,6 +101,6 @@ class CPT_Banner {
 
 }
 
-new CPT_Banner;
+new CPTBanner;
 
 ?>
