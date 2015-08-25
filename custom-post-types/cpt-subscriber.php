@@ -3,7 +3,7 @@
 if( !defined( 'WPINC' ) )
   die();
 
-class CPT_Subscriber {
+class CPTSubscriber {
 
     // -----------------------------------------------------------------------------
 
@@ -76,7 +76,8 @@ class CPT_Subscriber {
         $columns[ 'title' ] = 'Email';
 
         $new_columns = array(
-            'assinante_ativo'  => __( 'Ativo?', 'softran')
+            'assinante_nome'   => 'Nome',
+            'assinante_ativo'  => 'Ativo?'
         );
 
         return array_merge( $columns, $new_columns );
@@ -154,48 +155,23 @@ class CPT_Subscriber {
 
     // -----------------------------------------------------------------------------
 
-    public function exportar_assinantes_xls(){
-        $args_assinantes = array(
-            'post_type' => 'assinante',
-            'posts_per_page' => -1,
-            'meta_query' =>
-                array(
-                    array(
-                        'key' => 'assinante_ativo',
-                        'value' => '1',
-                        'compare' => '='
-                    )
-                )
-        );
-
-
-        $posts_assinantes = $this->get_assinantes();
-
-        if( !$posts_assinantes ){
-            echo 'Nenhum assinante ativo!';
-            return;
-        }
-        else{
-            //$this->gerar_xls( $posts_assinantes );
-        }
-    }
-
-    // -----------------------------------------------------------------------------
-
     public function gerar_xls(){
 
         header('Content-Type: application/csv');
         header('Content-Disposition: attachement; filename="arquivo.csv";');
 
         $assinantes = $this->get_assinantes();
-
         $out        = fopen('php://output', 'w');
 
-        $linha = 3; //linha da planilha
         foreach( $assinantes as $assinante ){
-            $assinante_ativo         = get_post_meta( $assinante->ID , 'assinante_ativo' , true ) == 1 ? 'Sim' : 'Não';
-            fputcsv($out, array( $assinante->post_title,  $assinante_ativo ));
+            $dados =   array(
+                get_post_meta( $assinante->ID , 'assinante_nome' , true ),
+                $assinante->post_title,
+                get_post_meta( $assinante->ID , 'assinante_ativo' , true ) == 1 ? 'Sim' : 'Não'
+            );
+            fputcsv($out, $dados);
         }
+
         fclose($out);
 
         exit;
@@ -205,6 +181,6 @@ class CPT_Subscriber {
     // -----------------------------------------------------------------------------
 }
 
-new CPT_Subscriber;
+new CPTSubscriber;
 
 ?>
