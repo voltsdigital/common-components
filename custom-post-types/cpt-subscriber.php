@@ -10,25 +10,25 @@ class CPTSubscriber {
     public function __construct() {
 
         $assinante = new Odin_Post_Type(
-            'Assinante', // Nome (Singular) do Post Type.
-            'assinante' // Slug do Post Type.
+            'Assinante',
+            'assinante'
         );
 
         $assinante->set_arguments(
             array(
-                'supports'     => array( 'title' ),
-                'hierarchical' => false,
-                'menu_icon'    => 'dashicons-book',
+                'supports'            => array( 'title' ),
+                'hierarchical'        => false,
+                'menu_icon'           => 'dashicons-book',
                 'exclude_from_search' => true,
-                'rewrite' => false
+                'rewrite'             => false
             )
         );
 
-        add_filter( 'manage_edit-assinante_columns',        array( $this, 'colunas_exibicao_listagem' ));
-        add_action( 'manage_assinante_posts_custom_column', array( $this, 'valores_exibicao_listagem'), 10,2);
-        add_action( 'months_dropdown_results',              array( $this, 'definir_visibilidade_filtro_meses_dropdown' ), 10, 1);
-        add_action( 'admin_menu',                           array( $this, 'exportar_assinantes_menu') );
-        add_action( 'admin_init',                           array( $this, 'gerar_xls_assinantes') );
+        add_filter( 'manage_edit-assinante_columns',        array( $this, 'columnsToShowOnList' ));
+        add_action( 'manage_assinante_posts_custom_column', array( $this, 'valuesToShowOnList'), 10,2);
+        add_action( 'months_dropdown_results',              array( $this, 'definVisibilityDropdown' ), 10, 1);
+        add_action( 'admin_menu',                           array( $this, 'exportSubscriber') );
+        add_action( 'admin_init',                           array( $this, 'generateXLS') );
 
     }
      // -----------------------------------------------------------------------------
@@ -37,7 +37,7 @@ class CPTSubscriber {
      * @param  array $year_month_array   Dropdown Itens
      * @return array
      */
-    public function definir_visibilidade_filtro_meses_dropdown( $year_month_array ){
+    public function definVisibilityDropdown( $year_month_array ){
         switch( get_post_type()){
             case 'assinante':
                 return array();
@@ -48,24 +48,12 @@ class CPTSubscriber {
     }
 
     // -----------------------------------------------------------------------------
-
-    /**
-     * Esconder Botão Filtro
-     */
-    public function esconder_funcoes_filtro() {
-        if( get_post_type() == 'assinante' ){
-            $custom_css = "<style type=\"text/css\"> #post-query-submit { display: none; }</style>";
-            echo $custom_css;
-        }
-    }
-
-    // -----------------------------------------------------------------------------
     /**
      * Edita as colunas que serão exibigas na listagem do post
      * @param  array $columns   Colunas
      * @return array
      */
-    public function colunas_exibicao_listagem( $columns ) {
+    public function columnsToShowOnList( $columns ) {
 
         unset($columns["date"]);
         unset($columns["wpseo-metadesc"]);
@@ -92,7 +80,7 @@ class CPTSubscriber {
      * @param  int $post_id ID
      * @return  string          Valor do campo
      */
-    public function valores_exibicao_listagem( $column, $post_id ) {
+    public function valuesToShowOnList( $column, $post_id ) {
         $logo_size = array( 50 , 50 );
         switch ( $column ) {
             case 'assinante_ativo':
@@ -115,23 +103,22 @@ class CPTSubscriber {
 
     // -----------------------------------------------------------------------------
 
-    public function gerar_xls_assinantes(){
+    public function generateXLS(){
         if( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'exportar_assinantes_xls' ){
-            $this->gerar_xls();
+            $this->downloadXLS();
             exit;
         }
     }
 
     // -----------------------------------------------------------------------------
 
-    public function exportar_assinantes_menu(){
-        add_utility_page( __( 'Exportar Assinantes' ,'exportar_assinantes_xls'), 'Exportar Assinantes Posts', 'read', 'exportar_assinantes_xls', array( $this , 'exportar_assinantes_xls' ) );
+    public function exportSubscriber(){
         $page = add_submenu_page( 'edit.php?post_type=assinante' ,'Exportar Assinantes em XLS' , 'Exportar Assinantes em XLS' , 'manage_categories' ,'admin.php?page=exportar_assinantes_xls' );
     }
 
     // -----------------------------------------------------------------------------
 
-    public function get_assinantes( $somente_ativos  = false ){
+    public function getSubscribers( $somente_ativos  = false ){
         $args_assinantes = array(
             'post_type' => 'assinante',
             'posts_per_page' => -1
@@ -155,12 +142,12 @@ class CPTSubscriber {
 
     // -----------------------------------------------------------------------------
 
-    public function gerar_xls(){
+    public function downloadXLS(){
 
         header('Content-Type: application/csv');
         header('Content-Disposition: attachement; filename="arquivo.csv";');
 
-        $assinantes = $this->get_assinantes();
+        $assinantes = $this->getSubscribers();
         $out        = fopen('php://output', 'w');
 
         foreach( $assinantes as $assinante ){
