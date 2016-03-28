@@ -45,19 +45,14 @@ class CPTBanner {
             )
         );
 
-        add_filter( 'manage_edit-banner_columns',        array($this, 'colunas_exibicao_listagem' ));
-        add_action( 'manage_banner_posts_custom_column', array($this, 'valores_exibicao_listagem'), 10,2);
+        add_filter( 'manage_edit-banner_columns',        array($this, 'columnsToShowOnList' ));
+        add_action( 'manage_banner_posts_custom_column', array($this, 'valuesToShowOnList'), 10,2);
 
     }
 
     // -----------------------------------------------------------------------------
 
-    /**
-     * Edita as colunas que serão exibigas na listagem do post
-     * @param  array $columns   Colunas
-     * @return array
-     */
-    public function colunas_exibicao_listagem( $columns ) {
+    public function columnsToShowOnList( $columns ) {
 
 
         unset($columns["date"]);
@@ -86,7 +81,7 @@ class CPTBanner {
      * @param  int $post_id ID
      * @return  string          Valor do campo
      */
-    public function valores_exibicao_listagem( $column, $post_id ) {
+    public function valuesToShowOnList( $column, $post_id ) {
 
         if( $column == "banner_foto" )
             $valor = wp_get_attachment_image( get_post_meta( $post_id, $column , "single" ) );
